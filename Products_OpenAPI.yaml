@@ -1,0 +1,461 @@
+openapi: 3.0.3
+info:
+  title: Swagger ProductsStore
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://productStore/api/v1
+tags:
+  - name: products
+    description: Product information
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      summary: Search products by user input
+      description: Возвращает товары, подходящие под запрос.
+      parameters:
+        - name: searchString
+          in: query
+          description: Поиск товара по запросу
+          required: true
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Поиск товара c использованием фильтра "Размер". Размерная сетка от XS до XXXL.
+          required: false
+          schema:
+            type: number
+        - name: brand
+          in: query
+          description: Поиск товара c использованием фильтра "Бренд"
+          required: false
+          explode: true
+          schema:
+            type: string  
+        - name: color
+          in: query
+          description: Поиск товара с использованием фильтра "Цвет"
+          required: false
+          explode: true
+          schema:
+            type: number 
+        - name: price
+          in: query
+          description: Поиск товара с использованием фильтра "Цена"
+          required: false
+          explode: true
+          schema:
+            type: string  
+        - name: pageIndex
+          in: query
+          description: Номер страницы
+          required: true
+          explode: true
+          schema:
+            type: number       
+        - name: recordsPerPage
+          in: query
+          required: true
+          description: Количество товаров, отображаемых на одной странице от 0 до 25
+          explode: true
+          schema:
+            type: number           
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/products200'                 
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/status404'
+  /product:  
+    post:
+      tags: 
+      - product
+      summary: Add a new product to the store 
+      description: Добавление нового товара администратором в магазин.
+      requestBody:
+        description: Create a new product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newProduct200'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/newProduct200'
+        '400':
+          description: Bad request         
+    put:
+      tags: 
+      - product
+      summary: Update an existing product by ID 
+      description: Обновить существующий товар по ID.
+      requestBody:
+        description: Update an existing product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updatedProduct200'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/updatedProduct200'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/status404'  
+  /product/{id}:
+    get:
+      tags:
+        - product
+      summary: Search products by ID 
+      description: Возвращает конкретный товар по ID.
+      parameters:
+        - name: id 
+          in: path
+          description: Поиск товара по ID 
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/productId200'         
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/status404'
+    delete:
+      tags: 
+      - product
+      summary: Delete product by ID 
+      description: Удаляет товар по ID.
+      parameters:
+        - name: id
+          in: path
+          description: Удалить товар по ID 
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation        
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/status404'
+    patch:
+      tags: 
+       - product 
+      summary: Update the price of an existing product 
+      description: Обновить цену существующего товара.
+      parameters:
+        - name: id
+          in: path
+          description: Обновление цены товара
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update the price of an existing product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchProductPrice'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/patchProductPrice200'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/status404'  
+components:
+  schemas:
+    products200:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/productExample'
+        pagination:
+          type: object
+          properties:
+            pageIndex:
+              type: number
+              example: 1
+            recordsPerPage:
+              type: number
+              example: 25
+            totalRecords:
+              type: number
+              example: 50
+    productExample:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '2c85a738-7ad9-40eb-8b3a-d98175263869'
+        name:
+          type: string
+          example: 'Куртка'
+        price:
+          type: number
+          example: 5600
+        picture:
+          type: object
+          properties:
+            url:
+              type: string
+              example: https://regpi3doc.net/images/459853.jpg
+            width:
+              type: number
+              example: 400
+            height:
+              type: number
+              example: 400
+    status404:
+      type: object
+      properties:
+        serviceName:
+          type: string
+          example: ToStyle backend
+        serviceMessage:
+          type: string
+          example: No content
+    productId200:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 2c85a738-7ad9-40eb-8b3a-d98175263869
+        product:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Куртка
+            sex:
+              type: string 
+              example: Женский
+        description:
+          type: string
+          example: Пример текстового описания товара
+        size:
+          type: number
+          example: 44
+        brand:
+          type: string
+          example: Lime
+        color:
+          type: string
+          example: чёрный
+        price:
+          type: number 
+          example: 5600
+        picture:
+           type: object
+           properties:
+            url:
+              type: string
+              example: https://regpi3doc.net/images/459853.jpg
+            width:
+              type: number
+              example: 400
+            height:
+              type: number
+              example: 400       
+    newProduct200:  
+      type: object
+      properties:
+        id: 
+          type: string
+          example: e8f113e8-51e4-4893-989b-a5c3df7e7ef5
+        product:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Худи
+            sex:
+              type: string 
+              example: Мужской
+        description:
+          type: string
+          example: Пример текстового описания товара
+        size:
+          type: number
+          example: 52
+        brand:
+          type: string
+          example: BOSS
+        color:
+          type: string
+          example: белый
+        price:
+          type: number 
+          example: 12000
+        picture:
+           type: object
+           properties:
+            url:
+              type: string
+              example: https://regpi3doc.net/images/928374.jpg
+            width:
+              type: number
+              example: 400
+            height:
+              type: number
+              example: 400       
+    updatedProduct200:  
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 2c85a738-7ad9-40eb-8b3a-d98175263869
+        product:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Пальто
+            sex:
+              type: string 
+              example: Женский
+        description:
+          type: string
+          example: Пример текстового описания товара
+        size:
+          type: number
+          example: 48
+        brand:
+          type: string
+          example: Zarina
+        color:
+          type: string
+          example: бордовый
+        price:
+          type: number 
+          example: 9600
+        picture:
+           type: object
+           properties:
+            url:
+              type: string
+              example: https://regpi3doc.net/images/738291.jpg
+            width:
+              type: number
+              example: 400
+            height:
+              type: number
+              example: 400       
+    patchProductPrice:
+      type: object
+      properties:
+        price:  
+          type: number
+          example: 10900
+    patchProductPrice200:  
+      type: object
+      properties:
+        id: 
+          type: string
+          example: e8f113e8-51e4-4893-989b-a5c3df7e7ef5
+        product:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Худи
+            sex:
+              type: string 
+              example: Мужской
+        description:
+          type: string
+          example: Пример текстового описания товара
+        size:
+          type: number
+          example: 52
+        brand:
+          type: string
+          example: BOSS
+        color:
+          type: string
+          example: белый
+        price:
+          type: number 
+          example: 10900
+        picture:
+           type: object
+           properties:
+            url:
+              type: string
+              example: https://regpi3doc.net/images/928374.jpg
+            width:
+              type: number
+              example: 400
+            height:
+              type: number
+              example: 400             
