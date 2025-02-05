@@ -1,0 +1,17 @@
+{
+    "id": "e8f113e8-51e4-4893-989b-a5c3df7e7ef5",   
+    "product": {
+        "name": "Худи",
+        "sex": "Мужской"
+    },
+    "description": "Пример текстового описания товара",
+    "size": 52,
+    "brand": "BOSS",
+    "color": "белый",
+    "price": "10900",
+    "picture": { 
+       "url": "https://regpi3doc.net/images/928374.jpg",
+        "width": 400,
+        "height": 400
+    }       
+}

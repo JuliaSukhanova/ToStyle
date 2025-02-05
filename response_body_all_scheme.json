@@ -1,0 +1,20 @@
+{
+    "products": [{
+        "id": "string",   
+        "name": "string",
+        "price": "number",
+        "picture": { 
+            "url": "string",
+            "width": "number",
+            "height": "number"
+            }
+        }
+    ],
+    "pagination": {
+      "properties": {
+        "pageIndex": "number",
+        "recordsPerPage": "number",
+        "totalRecords": "number"
+      }
+    }
+}

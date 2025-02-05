@@ -1,0 +1,17 @@
+{
+"id": "2c85a738-7ad9-40eb-8b3a-d98175263869",
+    "product": {
+        "name": "Пальто",
+        "sex": "женский"
+    },
+    "description": "Пример текстового описания товара",
+    "size": 48,
+    "brand": "Zarina",
+    "color": "бордовый",
+    "price": 9600,
+    "picture": { 
+        "url": "https://regpi3doc.net/images/738291.jpg",
+        "width": 400,
+        "height": 400
+}   
+}

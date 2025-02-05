@@ -1,0 +1,30 @@
+{
+    "products": [{
+        "id": "2c85a738-7ad9-40eb-8b3a-d98175263869",   
+        "name": "Куртка",
+        "price": 5600,
+        "picture": { 
+            "url": "https://regpi3doc.net/images/459853.jpg",
+            "width": 400,
+            "height": 400
+            }
+        },
+        {
+        "id": "c7dabe7f-2b8c-4d5f-bbad-b4e64ae97486",   
+        "name": "Куртка",
+        "price": 6200,
+        "picture": { 
+            "url": "https://regpi3doc.net/images/874610.jpg",
+            "width": 400,
+            "height": 400
+                    }
+            }
+    ],
+    "pagination": {
+      "properties": {
+        "pageIndex": 1,
+        "recordsPerPage": 25,
+        "totalRecords": 2
+      }
+    }
+}

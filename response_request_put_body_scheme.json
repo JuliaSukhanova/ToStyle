@@ -1,0 +1,17 @@
+{
+"id": "string",   
+"product": {
+    "name": "string",
+    "sex": "string"
+},
+"description": "string",
+"size": "number",
+"brand": "string",
+"color": "string",
+"price": "number",
+"picture": { 
+   "url": "string",
+    "width": "number",
+    "height": "number"
+}  
+}
